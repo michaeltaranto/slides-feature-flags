@@ -1,0 +1,219 @@
+!!! 5
+html
+  head
+    meta(charset='utf-8')
+    meta(name='viewport', content='width=device-width, initial-scale=1, maximum-scale=1')
+    title Feature Flags with Directives
+
+    //- Check out 'src/bower_components/prism/' for available themes
+    link(rel='stylesheet', type='text/css', href='bower_components/prism/prism-tomorrow.css')
+
+    link(rel='stylesheet', type='text/css', href='styles/main.css')
+
+  body
+
+    article
+
+      section
+        h1 Feature Flags with Directives
+
+      section
+        h2 angularjs = directives
+
+      section
+        h3 different ways of writing directives
+
+      section
+        h3 add behaviour to elements
+        hr
+        code.language-markup
+          pre.
+            <div scroll></div>
+
+      section
+        h3 extending HTML's vocabulary
+        hr
+        code.language-markup
+          pre.
+            <datepicker></datepicker>
+
+      section
+        h3 reusable functionality
+        hr
+        code.language-markup
+          pre.
+            <create-user></create-user>
+
+      section
+        h3 replaced with
+        code.language-markup
+          pre.
+            <form>
+              <input name="firstName" />
+              <input name="lastName" />
+              <button>Save</button>
+            </form>
+
+      section
+        h2 small testable units
+
+      section
+        h2.bullet in an ideal world
+        hr
+        h3.bullet commit often
+        h3.bullet release frequently
+
+      section
+        h2.bullet not that easy
+        hr
+        h3.bullet big features?
+        h3.bullet dependencies?
+        h3.bullet marketing?
+
+      section
+        h2 feature flags!
+
+      section
+        h2 write it and hide it
+
+      section
+        h2.bullet ng-if
+        h3.bullet (v1.1.5+)
+
+      section
+        h2.bullet not using it? remove it!
+        hr
+        h3.bullet don't leave it in the dom
+
+      section
+        h2 how do i use feature flags?
+
+      section
+        h3 a small example
+        hr
+        code.language-markup
+          pre.
+            <body ng-app="myApp">
+              <h1>My App!</h1>
+              <menu></menu>
+            </body>
+
+      section
+        h3 the 'menu' template
+        hr
+        code.language-markup
+          pre.
+            <div class="menu">
+              <activity-feed></activity-feed>
+              <messages></messages>
+              <create-user></create-user>
+            </div>
+
+      section
+        h3 add module dependency
+        hr
+        code.language-javascript
+          pre.
+            angular.module("myApp", [ "feature-flags" ]);
+
+      section
+        h3 inject the service to parent directive
+        hr
+        code.language-javascript
+          pre.
+            angular.module("myApp")
+              .directive("menu", function(FlagsService) {
+                return {
+                  ...
+                }  
+              });
+
+      section
+        h3 add ng-if to your new feature
+        hr
+        code.language-markup
+          pre.
+            <div class="menu">
+              <activity-feed></activity-feed>
+              <messages></messages>
+              <create-user ng-if="expression"></create-user>
+            </div>
+
+      section
+        h3 ask the service if you're allowed
+        hr
+        code.language-javascript
+          pre.
+            link: function(scope) {
+              scope.canIUse = FlagsService.isOn;
+            }
+
+      section
+        h3 add it to the template
+        hr
+        code.language-markup
+          pre.
+            <div class="menu">
+              <activity-feed></activity-feed>
+              <messages></messages>
+              <create-user ng-if="canIUse('createUser')"></create-user>
+            </div>
+
+      section
+        h2.bullet woah a minute
+        hr
+        code.language-markup
+          pre.
+              <create-user ng-if="canIUse('createUser')"></create-user>
+        hr
+        h2.bullet wtf is 'createUser'
+
+      section
+        h2.bullet only the flags service knows
+        h3.bullet (defined in flags.json)
+
+      section
+        h2 defining your flags
+        hr
+        code.language-javascript
+          pre.
+              [
+                ...
+                {
+                  key: "createUser",
+                  name: "Create New User",
+                  description: "My awesome new feature"
+                }
+                ...
+              ]
+
+      section
+        h2.bullet versions
+        hr
+        h3.bullet local storage
+        h3.bullet cookies
+        h3.bullet module values even
+
+      section
+        h3 show me the code
+
+      section
+        h3 github:
+        code.language-javascript
+          pre.
+            http://bit.ly/angular-feature-flags
+        hr
+        h3 slides:
+        code.language-javascript
+          pre.
+            http://
+        hr
+        h3 me:
+        code.language-javascript
+          pre.
+            @michaeltaranto
+
+    script(src='bower_components/bespoke.js/dist/bespoke.min.js')
+    script(src='bower_components/bespoke-bullets/dist/bespoke-bullets.min.js')
+    script(src='bower_components/prism/prism.js')
+    script(src='scripts/main.js')

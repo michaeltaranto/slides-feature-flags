@@ -1,0 +1,9 @@
+{
+  "name": "feature-flags-with-directives-bespoke",
+  "version": "0.0.0",
+  "dependencies": {
+    "bespoke.js": "~0.3.0",
+    "bespoke-bullets": "~0.2.0",
+    "prism": "gh-pages"
+  }
+}

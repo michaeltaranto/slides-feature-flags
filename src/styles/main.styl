@@ -1,0 +1,162 @@
+@import 'nib' // CSS3 extensions for Stylus: http://visionmedia.github.io/nib/
+
+// variables!
+
+slide_width = 800px
+slide_height = 600px
+slide_background = #fff
+
+slide_transition_length = 1s
+slide_transition_easing = ease
+slide_transition_translate_x = -1200px
+slide_transition_translate_y = 800px
+slide_transition_rotate = -50deg
+
+bullet_transition_length = .3s
+bullet_transition_easing = ease
+bullet_transition_translate_x = 16px
+
+// base
+
+*
+  box-sizing: border-box
+  margin: 0
+  padding: 0
+
+@media print
+  *
+    -webkit-print-color-adjust: exact
+
+@page
+  size: landscape
+  margin: 0
+
+// bespoke.js layout styles
+
+article
+  transition: background slide_transition_length slide_transition_easing
+  display: none
+  &.bespoke-parent
+    display: block
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    overflow: hidden
+    @media print
+      overflow: visible
+      position: static
+    perspective: 600px
+
+.bespoke-slide
+  transition: all slide_transition_length slide_transition_easing
+  transform-origin: 100% 0%
+  backface-visibility: hidden
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+  text-align: center
+  max-width: slide_width
+  max-height: slide_height
+  position: absolute
+  margin: auto
+  top: 10%
+  left: 10%
+  bottom: 10%
+  right: 10%
+  background: slide_background
+  padding: 40px
+  border-radius: 0
+  color: #731092
+  font-family: 'Trebuchet MS'
+  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2)
+  @media print
+    height: 743px // seems to correspond with an A4, landscape page height
+    width: 100%
+    page-break-before: always
+    position: static
+    margin: 0
+  &.bespoke-before
+    opacity: 1
+
+.bespoke-before
+  transform: translateX(slide_transition_translate_x) translateY(slide_transition_translate_y) rotate(slide_transition_rotate)
+
+.bespoke-after
+  // transform: translateX(slide_transition_translate_x) translateY(slide_transition_translate_y) rotate(slide_transition_rotate)
+  @media print
+    transform: translateX(0) rotateY(0)
+
+.bespoke-inactive
+  opacity: 0
+  pointer-events: none
+  @media print
+    opacity 1
+
+.bespoke-active
+  opacity: 1
+
+// bespoke-bullet styles
+
+.bespoke-bullet
+  transition: all bullet_transition_length bullet_transition_easing
+
+.bespoke-bullet-inactive
+  opacity: 0
+  li&
+    transform: translateX(bullet_transition_translate_x)
+  @media print
+    opacity: 1
+
+.bespoke-bullet-active
+  opacity: 1
+
+// prism styles
+
+code
+  padding: 26px !important
+
+// content styles
+
+body
+  font-family: helvetica, arial, sans-serif
+  font-size: 18px
+  color: #404040
+  background-color: #DFEDF5
+
+h1
+  font-size: 72px
+  line-height: 82px
+  letter-spacing: -2px
+  margin-bottom: 16px
+
+h2
+  font-size: 42px
+  letter-spacing: -1px
+  margin-bottom: 8px
+
+h3
+  font-size: 24px
+  font-weight: normal
+  margin-bottom: 24px
+  color: #606060
+
+hr
+  visibility: hidden
+  height: 20px
+
+ul
+  list-style: none
+
+li
+  margin-bottom: 12px
+
+p
+  margin: 0 100px 12px
+  line-height: 22px
+
+a
+  color: #0093CC
+  text-decoration: none
