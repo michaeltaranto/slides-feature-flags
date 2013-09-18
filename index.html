@@ -1,0 +1,48 @@
+<!DOCTYPE html><html><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"><title>Feature Flags with Directives</title><link rel="stylesheet" type="text/css" href="bower_components/prism/prism-tomorrow.css"><link rel="stylesheet" type="text/css" href="styles/main.css"></head><body><article><section><h1>Feature Flags with Directives</h1></section><section><h2>angularjs = directives</h2></section><section><h3>different ways of writing directives</h3></section><section><h3>add behaviour to elements</h3><hr><code class="language-markup"><pre>&lt;div scroll&gt;&lt;/div&gt;
+</pre></code></section><section><h3>extending HTML's vocabulary</h3><hr><code class="language-markup"><pre>&lt;datepicker&gt;&lt;/datepicker&gt;
+</pre></code></section><section><h3>reusable functionality</h3><hr><code class="language-markup"><pre>&lt;create-user&gt;&lt;/create-user&gt;
+</pre></code></section><section><h3>replaced with</h3><code class="language-markup"><pre>&lt;form&gt;
+  &lt;input name=&quot;firstName&quot; /&gt;
+  &lt;input name=&quot;lastName&quot; /&gt;
+  &lt;button&gt;Save&lt;/button&gt;
+&lt;/form&gt;
+</pre></code></section><section><h2>small testable units</h2></section><section><h2 class="bullet">in an ideal world</h2><hr><h3 class="bullet">commit often</h3><h3 class="bullet">release frequently</h3></section><section><h2 class="bullet">not that easy</h2><hr><h3 class="bullet">big features?</h3><h3 class="bullet">dependencies?</h3><h3 class="bullet">marketing?</h3></section><section><h2>feature flags!</h2></section><section><h2>write it and hide it</h2></section><section><h2 class="bullet">ng-if</h2><h3 class="bullet">(v1.1.5+)</h3></section><section><h2 class="bullet">not using it? remove it!</h2><hr><h3 class="bullet">don't leave it in the dom</h3></section><section><h2>how do i use feature flags?</h2></section><section><h3>a small example</h3><hr><code class="language-markup"><pre>&lt;body ng-app=&quot;myApp&quot;&gt;
+  &lt;h1&gt;My App!&lt;/h1&gt;
+  &lt;menu&gt;&lt;/menu&gt;
+&lt;/body&gt;
+</pre></code></section><section><h3>the 'menu' template</h3><hr><code class="language-markup"><pre>&lt;div class=&quot;menu&quot;&gt;
+  &lt;activity-feed&gt;&lt;/activity-feed&gt;
+  &lt;messages&gt;&lt;/messages&gt;
+  &lt;create-user&gt;&lt;/create-user&gt;
+&lt;/div&gt;
+</pre></code></section><section><h3>add module dependency</h3><hr><code class="language-javascript"><pre>angular.module(&quot;myApp&quot;, [ &quot;feature-flags&quot; ]);
+</pre></code></section><section><h3>inject the service to parent directive</h3><hr><code class="language-javascript"><pre>angular.module(&quot;myApp&quot;)
+  .directive(&quot;menu&quot;, function(FlagsService) {
+    return {
+      ...
+    }  
+  });
+  </pre></code></section><section><h3>add ng-if to your new feature</h3><hr><code class="language-markup"><pre>&lt;div class=&quot;menu&quot;&gt;
+  &lt;activity-feed&gt;&lt;/activity-feed&gt;
+  &lt;messages&gt;&lt;/messages&gt;
+  &lt;create-user ng-if=&quot;expression&quot;&gt;&lt;/create-user&gt;
+&lt;/div&gt;
+</pre></code></section><section><h3>ask the service if you're allowed</h3><hr><code class="language-javascript"><pre>link: function(scope) {
+  scope.canIUse = FlagsService.isOn;
+}
+</pre></code></section><section><h3>add it to the template</h3><hr><code class="language-markup"><pre>&lt;div class=&quot;menu&quot;&gt;
+  &lt;activity-feed&gt;&lt;/activity-feed&gt;
+  &lt;messages&gt;&lt;/messages&gt;
+  &lt;create-user ng-if=&quot;canIUse('createUser')&quot;&gt;&lt;/create-user&gt;
+&lt;/div&gt;
+</pre></code></section><section><h2 class="bullet">woah a minute</h2><hr><code class="language-markup"><pre>&lt;create-user ng-if=&quot;canIUse('createUser')&quot;&gt;&lt;/create-user&gt;</pre></code><hr><h2 class="bullet">wtf is 'createUser'</h2></section><section><h2 class="bullet">only the flags service knows</h2><h3 class="bullet">(defined in flags.json)</h3></section><section><h2>defining your flags</h2><hr><code class="language-javascript"><pre>[
+  ...
+  {
+    key: &quot;createUser&quot;,
+    name: &quot;Create New User&quot;,
+    description: &quot;My awesome new feature&quot;
+  }
+  ...
+]
+</pre></code></section><section><h2 class="bullet">versions</h2><hr><h3 class="bullet">local storage</h3><h3 class="bullet">cookies</h3><h3 class="bullet">module values even</h3></section><section><h3>show me the code</h3></section><section><h3>github:</h3><code class="language-javascript"><pre>http://bit.ly/angular-feature-flags</pre></code><hr><h3>slides:</h3><code class="language-javascript"><pre>http://mjt01.github.io/slides-feature-flags/</pre></code><hr><h3>me:</h3><code class="language-javascript"><pre>@michaeltaranto
+</pre></code></section></article><script src="bower_components/bespoke.js/dist/bespoke.min.js"></script><script src="bower_components/bespoke-bullets/dist/bespoke-bullets.min.js"></script><script src="bower_components/prism/prism.js"></script><script src="scripts/main.js"></script></body></html>
